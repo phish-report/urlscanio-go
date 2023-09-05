@@ -17,7 +17,7 @@ func TestNullable_UnmarshalJSON(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.input, func(t *testing.T) {
-			n := Nullable[string]{}
+			n := NullableSlice[string]{}
 			if err := json.Unmarshal([]byte(tt.input), &n); err != nil {
 				t.Fatal(err)
 			}

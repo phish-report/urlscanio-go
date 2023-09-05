@@ -477,9 +477,9 @@ type RequestResponse struct {
 type ScanResult struct {
 	raw  []byte
 	Data struct {
-		Requests []RequestResponse  `json:"requests"`
-		Cookies  Nullable[[]Cookie] `json:"cookies"`
-		Console  []ConsoleLog       `json:"console"`
+		Requests []RequestResponse     `json:"requests"`
+		Cookies  NullableSlice[Cookie] `json:"cookies"`
+		Console  []ConsoleLog          `json:"console"`
 		Links    []struct {
 			Href string `json:"href"`
 			Text string `json:"text"`
@@ -668,11 +668,11 @@ type ConsoleLog struct {
 	} `json:"message"`
 }
 
-// Nullable is a helper type which handles the case where urlscan.io can return an empty list as "{}"
+// NullableSlice is a helper type which handles the case where urlscan.io can return an empty list as "{}"
 // rather than the correct "null" or "[]"
-type Nullable[T any] []T
+type NullableSlice[T any] []T
 
-func (n *Nullable[T]) UnmarshalJSON(bytes []byte) error {
+func (n *NullableSlice[T]) UnmarshalJSON(bytes []byte) error {
 	if len(bytes) == 2 && string(bytes) == "{}" {
 		return nil
 	}
