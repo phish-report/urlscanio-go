@@ -86,10 +86,6 @@ func (c *Client) PollResult(ctx context.Context, uuid string) (ScanResult, error
 		if err == nil {
 			return result, nil
 		}
-		var e Error
-		if errors.As(err, &e) && e.Status == http.StatusNotFound {
-			continue
-		}
 
 		select {
 		case <-ctx.Done():
