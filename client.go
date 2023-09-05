@@ -19,7 +19,7 @@ const (
 
 type Client struct {
 	apiKey     string
-	httpClient *http.Client
+	httpClient httpClient
 }
 
 type Option func(*Client)
@@ -39,7 +39,11 @@ func APIKey(key string) Option {
 	}
 }
 
-func HTTPClient(client *http.Client) Option {
+type httpClient interface {
+	Do(req *http.Request) (*http.Response, error)
+}
+
+func HTTPClient(client httpClient) Option {
 	return func(c *Client) {
 		c.httpClient = client
 	}
@@ -124,7 +128,7 @@ func (c *Client) do(ctx context.Context, method, path string, request, response 
 	}
 
 	// create client
-	client := http.DefaultClient
+	var client httpClient = http.DefaultClient
 	if c.httpClient != nil {
 		client = c.httpClient
 	}
