@@ -79,17 +79,19 @@ func (c *Client) PollResult(ctx context.Context, uuid string) (ScanResult, error
 	ctx, cancel := context.WithTimeout(ctx, time.Minute)
 	defer cancel()
 
-	var result ScanResult
-	var err error
+	var lastErr error
 	for {
-		result, err = c.RetrieveResult(ctx, uuid)
+		result, err := c.RetrieveResult(ctx, uuid)
 		if err == nil {
 			return result, nil
+		}
+		if errors.Is(err, Error{}) {
+			lastErr = err
 		}
 
 		select {
 		case <-ctx.Done():
-			return ScanResult{}, errors.Join(ctx.Err(), err)
+			return ScanResult{}, errors.Join(ctx.Err(), lastErr)
 		case <-t.C:
 			continue
 		}
@@ -149,7 +151,11 @@ func (c *Client) do(ctx context.Context, method, path string, request, response 
 		}
 	}
 	if err != nil {
-		return resp, err
+		return resp, errors.Join(Error{
+			Message:     "internal",
+			Description: "error unmarshalling response",
+			Status:      http.StatusInternalServerError,
+		}, err)
 	}
 	if e.Status == 0 {
 		return resp, nil
