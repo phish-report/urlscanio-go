@@ -101,12 +101,7 @@ type SearchResponse struct {
 			MimeDescription string `json:"mimeDescription"`
 			Url             string `json:"url"`
 		} `json:"files,omitempty"`
-		Brand []struct {
-			Country  []string `json:"country"`
-			Name     string   `json:"name"`
-			Vertical []string `json:"vertical"`
-			Key      string   `json:"key"`
-		} `json:"brand,omitempty"`
+		Brand []Brand `json:"brand,omitempty"`
 	} `json:"results"`
 	Total   int  `json:"total"`
 	Took    int  `json:"took"`
@@ -139,7 +134,7 @@ type ScanResponse struct {
 type Verdict struct {
 	Score       int      `json:"score"`
 	Categories  []string `json:"categories"`
-	Brands      []string `json:"brands"`
+	Brands      []Brand  `json:"brands"`
 	Tags        []string `json:"tags"`
 	Malicious   bool     `json:"malicious"`
 	HasVerdicts bool     `json:"hasVerdicts"`
@@ -159,6 +154,13 @@ type CommunityVerdict struct {
 	VotesTotal     int `json:"votesTotal"`
 	VotesMalicious int `json:"votesMalicious"`
 	VotesBenign    int `json:"votesBenign"`
+}
+
+type Brand struct {
+	Key      string   `json:"key"`
+	Name     string   `json:"name"`
+	Country  []string `json:"country"`
+	Vertical []string `json:"vertical"`
 }
 
 type Cookie struct {

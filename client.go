@@ -85,13 +85,13 @@ func (c *Client) PollResult(ctx context.Context, uuid string) (ScanResult, error
 		if err == nil {
 			return result, nil
 		}
-		if errors.Is(err, Error{}) {
+		if errors.As(err, &Error{}) {
 			lastErr = err
 		}
 
 		select {
 		case <-ctx.Done():
-			return ScanResult{}, errors.Join(ctx.Err(), lastErr)
+			return ScanResult{}, errors.Join(lastErr, ctx.Err())
 		case <-t.C:
 			continue
 		}
@@ -151,11 +151,11 @@ func (c *Client) do(ctx context.Context, method, path string, request, response 
 		}
 	}
 	if err != nil {
-		return resp, errors.Join(Error{
+		return resp, Error{
 			Message:     "internal",
-			Description: "error unmarshalling response",
+			Description: err.Error(),
 			Status:      http.StatusInternalServerError,
-		}, err)
+		}
 	}
 	if e.Status == 0 {
 		return resp, nil
