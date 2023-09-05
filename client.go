@@ -75,22 +75,27 @@ func (c *Client) Scan(ctx context.Context, request ScanRequest) (ScanResponse, e
 func (c *Client) PollResult(ctx context.Context, uuid string) (ScanResult, error) {
 	// Poll every two seconds for up to a minute
 	t := time.NewTicker(2 * time.Second)
+	defer t.Stop()
 	ctx, cancel := context.WithTimeout(ctx, time.Minute)
 	defer cancel()
 
+	var result ScanResult
+	var err error
 	for {
+		result, err = c.RetrieveResult(ctx, uuid)
+		if err == nil {
+			return result, nil
+		}
+		var e Error
+		if errors.As(err, &e) && e.Status == http.StatusNotFound {
+			continue
+		}
+
 		select {
 		case <-ctx.Done():
-			return ScanResult{}, ctx.Err()
+			return ScanResult{}, errors.Join(ctx.Err(), err)
 		case <-t.C:
-			result, err := c.RetrieveResult(ctx, uuid)
-			if err == nil {
-				return result, nil
-			}
-			var e Error
-			if errors.As(err, &e) && e.Status == http.StatusNotFound {
-				continue
-			}
+			continue
 		}
 	}
 }
