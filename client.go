@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 const (
@@ -70,14 +72,34 @@ func (c *Client) Scan(ctx context.Context, request ScanRequest) (ScanResponse, e
 	return resp, nil
 }
 
-//
-//func (c *Client) PollResult(ctx context.Context, uuid string) (ScanResult, error) {
-//
-//}
-//
-//func (c Client) RetrieveResult(ctx context.Context, uuid string) (ScanResult, error) {
-//
-//}
+func (c *Client) PollResult(ctx context.Context, uuid string) (ScanResult, error) {
+	// Poll every two seconds for up to a minute
+	t := time.NewTicker(2 * time.Second)
+	ctx, cancel := context.WithTimeout(ctx, time.Minute)
+	defer cancel()
+
+	for {
+		select {
+		case <-ctx.Done():
+			return ScanResult{}, ctx.Err()
+		case <-t.C:
+			result, err := c.RetrieveResult(ctx, uuid)
+			if err == nil {
+				return result, nil
+			}
+			var e Error
+			if errors.As(err, &e) && e.Status == http.StatusNotFound {
+				continue
+			}
+		}
+	}
+}
+
+func (c Client) RetrieveResult(ctx context.Context, uuid string) (ScanResult, error) {
+	result := ScanResult{}
+	_, err := c.do(ctx, http.MethodGet, "/result/"+uuid, nil, &result)
+	return result, err
+}
 
 func (c *Client) do(ctx context.Context, method, path string, request, response any) (*http.Response, error) {
 	// create request
@@ -119,9 +141,10 @@ func (c *Client) do(ctx context.Context, method, path string, request, response 
 	if resp.StatusCode/100 == 2 {
 		err = json.Unmarshal(body, response)
 	} else {
-		err = json.Unmarshal(body, &e)
+		_ = json.Unmarshal(body, &e) // in many instances the body is empty so ignore this unmarshalling error
 		if e.Status == 0 {
 			e.Status = resp.StatusCode
+			e.Message = resp.Status
 		}
 	}
 	if err != nil {

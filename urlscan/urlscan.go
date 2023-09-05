@@ -61,7 +61,8 @@ func scan(ctx context.Context) error {
 		return err
 	}
 
-	resp, err := urlscanio.NewClient(urlscanio.APIKey(os.Getenv("URLSCAN_API_KEY"))).Scan(ctx, urlscanio.ScanRequest{
+	client := urlscanio.NewClient(urlscanio.APIKey(os.Getenv("URLSCAN_API_KEY")))
+	resp, err := client.Scan(ctx, urlscanio.ScanRequest{
 		URL:        scanFlags.Arg(0),
 		Visibility: *visibility,
 		Country:    *country,
@@ -70,5 +71,9 @@ func scan(ctx context.Context) error {
 		return err
 	}
 	fmt.Println(resp.Message, resp.ResultURL)
-	return nil
+
+	fmt.Println("Polling for result...")
+	result, err := client.PollResult(ctx, resp.Uuid)
+	fmt.Println(result, err)
+	return err
 }
