@@ -245,21 +245,14 @@ type RequestResponse struct {
 		LoaderId    string `json:"loaderId"`
 		DocumentURL string `json:"documentURL"`
 		Request     struct {
-			Url     string `json:"url"`
-			Method  string `json:"method"`
-			Headers struct {
-				UpgradeInsecureRequests string `json:"Upgrade-Insecure-Requests,omitempty"`
-				UserAgent               string `json:"User-Agent"`
-				AcceptLanguage          string `json:"accept-language"`
-				Referer                 string `json:"Referer,omitempty"`
-				Origin                  string `json:"Origin,omitempty"`
-				ContentType             string `json:"Content-Type,omitempty"`
-			} `json:"headers"`
-			MixedContentType string `json:"mixedContentType"`
-			InitialPriority  string `json:"initialPriority"`
-			ReferrerPolicy   string `json:"referrerPolicy"`
-			IsSameSite       bool   `json:"isSameSite"`
-			HasPostData      bool   `json:"hasPostData,omitempty"`
+			Url              string            `json:"url"`
+			Method           string            `json:"method"`
+			Headers          map[string]string `json:"headers"`
+			MixedContentType string            `json:"mixedContentType"`
+			InitialPriority  string            `json:"initialPriority"`
+			ReferrerPolicy   string            `json:"referrerPolicy"`
+			IsSameSite       bool              `json:"isSameSite"`
+			HasPostData      bool              `json:"hasPostData,omitempty"`
 			PostDataEntries  []struct {
 				Bytes string `json:"bytes"`
 			} `json:"postDataEntries,omitempty"`
@@ -288,25 +281,14 @@ type RequestResponse struct {
 		HasUserGesture       bool   `json:"hasUserGesture"`
 		PrimaryRequest       bool   `json:"primaryRequest,omitempty"`
 		RedirectResponse     struct {
-			Url        string `json:"url"`
-			Status     int    `json:"status"`
-			StatusText string `json:"statusText"`
-			Headers    struct {
-				AltSvc              string `json:"alt-svc"`
-				ContentLength       string `json:"content-length"`
-				ContentType         string `json:"content-type"`
-				Date                string `json:"date"`
-				Location            string `json:"location"`
-				Server              string `json:"server"`
-				Vary                string `json:"vary"`
-				XContentTypeOptions string `json:"x-content-type-options"`
-				XFrameOptions       string `json:"x-frame-options"`
-				XXssProtection      string `json:"x-xss-protection"`
-			} `json:"headers"`
-			MimeType          string `json:"mimeType"`
-			RemoteIPAddress   string `json:"remoteIPAddress"`
-			RemotePort        int    `json:"remotePort"`
-			EncodedDataLength int    `json:"encodedDataLength"`
+			Url               string            `json:"url"`
+			Status            int               `json:"status"`
+			StatusText        string            `json:"statusText"`
+			Headers           map[string]string `json:"headers"`
+			MimeType          string            `json:"mimeType"`
+			RemoteIPAddress   string            `json:"remoteIPAddress"`
+			RemotePort        int               `json:"remotePort"`
+			EncodedDataLength int               `json:"encodedDataLength"`
 			Timing            struct {
 				RequestTime              float64 `json:"requestTime"`
 				ProxyStart               int     `json:"proxyStart"`
@@ -355,48 +337,14 @@ type RequestResponse struct {
 		RequestId         string `json:"requestId"`
 		Type              string `json:"type"`
 		Response          struct {
-			Url        string `json:"url"`
-			Status     int    `json:"status"`
-			StatusText string `json:"statusText"`
-			Headers    struct {
-				AltSvc                            string `json:"alt-svc,omitempty"`
-				ContentEncoding                   string `json:"content-encoding,omitempty"`
-				ContentType                       string `json:"content-type,omitempty"`
-				Date                              string `json:"date,omitempty"`
-				Link                              string `json:"link,omitempty"`
-				Server                            string `json:"server,omitempty"`
-				Vary                              string `json:"vary,omitempty"`
-				LastModified                      string `json:"last-modified,omitempty"`
-				CacheControl                      string `json:"cache-control,omitempty"`
-				AcceptRanges                      string `json:"accept-ranges,omitempty"`
-				ContentLength                     string `json:"content-length,omitempty"`
-				Expires                           string `json:"expires,omitempty"`
-				StrictTransportSecurity           string `json:"strict-transport-security,omitempty"`
-				XContentTypeOptions               string `json:"x-content-type-options,omitempty"`
-				CrossOriginResourcePolicy         string `json:"cross-origin-resource-policy,omitempty"`
-				XXssProtection                    string `json:"x-xss-protection,omitempty"`
-				CrossOriginOpenerPolicy           string `json:"cross-origin-opener-policy,omitempty"`
-				XFrameOptions                     string `json:"x-frame-options,omitempty"`
-				AccessControlAllowOrigin          string `json:"access-control-allow-origin,omitempty"`
-				TimingAllowOrigin                 string `json:"timing-allow-origin,omitempty"`
-				ContentSecurityPolicy             string `json:"content-security-policy,omitempty"`
-				AccessControlAllowCredentials     string `json:"access-control-allow-credentials,omitempty"`
-				AccessControlAllowHeaders         string `json:"access-control-allow-headers,omitempty"`
-				Age                               string `json:"age,omitempty"`
-				ContentSecurityPolicyReportOnly   string `json:"content-security-policy-report-only,omitempty"`
-				ReportTo                          string `json:"report-to,omitempty"`
-				Pragma                            string `json:"pragma,omitempty"`
-				CrossOriginEmbedderPolicy         string `json:"cross-origin-embedder-policy,omitempty"`
-				AccessControlExposeHeaders        string `json:"access-control-expose-headers,omitempty"`
-				ContentType1                      string `json:"Content-Type,omitempty"`
-				ServerTiming                      string `json:"server-timing,omitempty"`
-				CrossOriginOpenerPolicyReportOnly string `json:"cross-origin-opener-policy-report-only,omitempty"`
-				ContentDisposition                string `json:"content-disposition,omitempty"`
-			} `json:"headers"`
-			MimeType          string `json:"mimeType"`
-			RemoteIPAddress   string `json:"remoteIPAddress,omitempty"`
-			RemotePort        int    `json:"remotePort,omitempty"`
-			EncodedDataLength int    `json:"encodedDataLength"`
+			Url               string            `json:"url"`
+			Status            int               `json:"status"`
+			StatusText        string            `json:"statusText"`
+			Headers           map[string]string `json:"headers"`
+			MimeType          string            `json:"mimeType"`
+			RemoteIPAddress   string            `json:"remoteIPAddress,omitempty"`
+			RemotePort        int               `json:"remotePort,omitempty"`
+			EncodedDataLength int               `json:"encodedDataLength"`
 			Timing            struct {
 				RequestTime              float64 `json:"requestTime"`
 				ProxyStart               int     `json:"proxyStart"`
