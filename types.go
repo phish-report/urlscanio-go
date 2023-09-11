@@ -390,6 +390,13 @@ type RequestResponse struct {
 				Value string `json:"value"`
 			} `json:"securityHeaders,omitempty"`
 		} `json:"response"`
+		Failed struct {
+			RequestId string  `json:"requestId"`
+			Timestamp float64 `json:"timestamp"`
+			Type      string  `json:"type"`
+			ErrorText string  `json:"errorText"`
+			Canceled  bool    `json:"canceled"`
+		} `json:"failed"`
 		HasExtraInfo bool   `json:"hasExtraInfo"`
 		Hash         string `json:"hash"`
 		Size         int    `json:"size"`
