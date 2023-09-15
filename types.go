@@ -140,6 +140,11 @@ type Verdict struct {
 	HasVerdicts bool     `json:"hasVerdicts"`
 }
 
+type OverallVerdict struct {
+	Verdict
+	Brands []string `json:"brands"`
+}
+
 type EnginesVerdict struct {
 	Verdict
 	EnginesTotal      int           `json:"enginesTotal"`
@@ -605,7 +610,7 @@ type ScanResult struct {
 		Hashes []string `json:"hashes"`
 	} `json:"lists"`
 	Verdicts struct {
-		Overall   Verdict          `json:"overall"`
+		Overall   OverallVerdict   `json:"overall"`
 		Urlscan   Verdict          `json:"urlscan"`
 		Engines   EnginesVerdict   `json:"engines"`
 		Community CommunityVerdict `json:"community"`
