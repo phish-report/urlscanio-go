@@ -141,8 +141,12 @@ type Verdict struct {
 }
 
 type OverallVerdict struct {
-	Verdict
-	Brands []Brand `json:"brands"`
+	Score       int      `json:"score"`
+	Categories  []string `json:"categories"`
+	Brands      []string  `json:"brands"`
+	Tags        []string `json:"tags"`
+	Malicious   bool     `json:"malicious"`
+	HasVerdicts bool     `json:"hasVerdicts"`
 }
 
 type EnginesVerdict struct {
