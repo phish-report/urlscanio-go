@@ -142,7 +142,7 @@ type Verdict struct {
 
 type OverallVerdict struct {
 	Verdict
-	Brands []string `json:"brands"`
+	Brands []Brand `json:"brands"`
 }
 
 type EnginesVerdict struct {
