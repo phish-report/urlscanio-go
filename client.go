@@ -13,8 +13,9 @@ import (
 )
 
 const (
-	version = "0.0.1"
-	apiBase = "https://urlscan.io/api/v1"
+	version    = "0.0.2"
+	apiBase    = "https://urlscan.io/api/v1"
+	proApiBase = "https://pro.urlscan.io/api/v1"
 )
 
 type Client struct {
@@ -60,7 +61,7 @@ func (c *Client) Search(ctx context.Context, request SearchRequest) (SearchRespo
 	}
 
 	var resp SearchResponse
-	_, err := c.do(ctx, http.MethodGet, "/search?"+params.Encode(), nil, &resp)
+	_, err := c.do(ctx, http.MethodGet, apiBase+"/search?"+params.Encode(), nil, &resp)
 	if err != nil {
 		return SearchResponse{}, err
 	}
@@ -69,11 +70,43 @@ func (c *Client) Search(ctx context.Context, request SearchRequest) (SearchRespo
 
 func (c *Client) Scan(ctx context.Context, request ScanRequest) (ScanResponse, error) {
 	var resp ScanResponse
-	_, err := c.do(ctx, http.MethodPost, "/scan", request, &resp)
+	_, err := c.do(ctx, http.MethodPost, apiBase+"/scan", request, &resp)
 	if err != nil {
 		return ScanResponse{}, err
 	}
 	return resp, nil
+}
+
+func (c Client) ListLiveScanners(ctx context.Context) (LiveScannersResponse, error) {
+	resp := LiveScannersResponse{}
+	_, err := c.do(ctx, http.MethodGet, proApiBase+"/livescan/scanners/", nil, &resp)
+	return resp, err
+}
+
+func (c Client) LiveScan(ctx context.Context, request ScanRequest) (LiveScanResult, error) {
+	resp := livescanResponse{}
+	_, err := c.do(ctx, http.MethodPost, fmt.Sprintf("%s/livescan/%s/scan/", proApiBase, request.Country),
+		liveScanRequest{
+			Scanner: liveScanParams{
+				UserAgent: request.UserAgent,
+			},
+			Task: liveScanTask{
+				Url:  request.URL,
+				Tags: request.Tags,
+			},
+		}, &resp)
+	if err != nil {
+		return LiveScanResult{}, err
+	}
+
+	scanResult := LiveScanResult{}
+	_, err = c.do(ctx, http.MethodGet, fmt.Sprintf("%s/livescan/%s/obj/%s", proApiBase, request.Country, resp.UUID), nil, &scanResult)
+	return scanResult, err
+}
+
+func (c Client) PersistLiveScan(ctx context.Context, liveScanner string, scanRequest PersistLiveScanRequest) error {
+	_, err := c.do(ctx, http.MethodPut, fmt.Sprintf("%s/livescan/%s/%s/", proApiBase, liveScanner, scanRequest.UUID), persistLiveScanRequest{Task: scanRequest}, &struct{}{})
+	return err
 }
 
 func (c *Client) PollResult(ctx context.Context, uuid string) (ScanResult, error) {
@@ -104,13 +137,13 @@ func (c *Client) PollResult(ctx context.Context, uuid string) (ScanResult, error
 
 func (c Client) RetrieveResult(ctx context.Context, uuid string) (ScanResult, error) {
 	result := ScanResult{}
-	_, err := c.do(ctx, http.MethodGet, "/result/"+uuid, nil, &result)
+	_, err := c.do(ctx, http.MethodGet, apiBase+"/result/"+uuid, nil, &result)
 	return result, err
 }
 
-func (c *Client) do(ctx context.Context, method, path string, request, response any) (*http.Response, error) {
+func (c *Client) do(ctx context.Context, method, url string, request, response any) (*http.Response, error) {
 	// create request
-	req, err := http.NewRequestWithContext(ctx, method, apiBase+path, nil)
+	req, err := http.NewRequestWithContext(ctx, method, url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -120,6 +153,7 @@ func (c *Client) do(ctx context.Context, method, path string, request, response 
 		if err != nil {
 			return nil, err
 		}
+		fmt.Println(url, "sending payload", string(requestBody))
 		req.Body = io.NopCloser(bytes.NewReader(requestBody))
 		req.Header.Set("Content-Type", "application/json")
 	}

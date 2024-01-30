@@ -118,6 +118,25 @@ type ScanRequest struct {
 	OverrideSafety string   `json:"overridesafety,omitempty"`
 }
 
+type liveScanRequest struct {
+	Scanner liveScanParams `json:"scanner"`
+	Task    liveScanTask   `json:"task"`
+}
+
+type liveScanTask struct {
+	Tags []string `json:"tags"`
+	Url  string   `json:"url"`
+}
+
+type liveScanParams struct {
+	PageTimeout     int               `json:"pageTimeout,omitempty"`
+	CaptureDelay    int               `json:"captureDelay,omitempty"`
+	ExtraHeaders    map[string]string `json:"extraHeaders,omitempty"`
+	EnableFeatures  []string          `json:"enableFeatures,omitempty"`
+	DisableFeatures []string          `json:"disableFeatures,omitempty"`
+	UserAgent       string            `json:"userAgent,omitempty"`
+}
+
 type ScanResponse struct {
 	Message      string `json:"message"`
 	Uuid         string `json:"uuid"`
@@ -618,6 +637,75 @@ type ScanResult struct {
 	Submitter struct {
 		Country string `json:"country"`
 	} `json:"submitter"`
+}
+
+type livescanResponse struct {
+	UUID string `json:"uuid"`
+}
+
+type LiveScanResult struct {
+	UUID     string            `json:"uuid"`
+	Requests []RequestResponse `json:"requests"`
+	// TODO: additional fields
+}
+
+type LiveScanner struct {
+	Country     string   `json:"country"`
+	Description string   `json:"description"`
+	Id          string   `json:"id"`
+	Tags        []string `json:"tags"`
+	Region      string   `json:"region"`
+	State       struct {
+		State       string    `json:"state"`
+		LastChecked time.Time `json:"lastChecked"`
+	} `json:"state"`
+	ConnectionType     string `json:"connectionType"`
+	ConnectionProvider string `json:"connectionProvider"`
+	ApparentIP         string `json:"apparentIP"`
+	ApparentIPInfo     struct {
+		Ip      string `json:"ip"`
+		Country string `json:"country"`
+		City    string `json:"city"`
+		Region  string `json:"region"`
+		Asn     struct {
+			Asn    string `json:"asn"`
+			Name   string `json:"name"`
+			Domain string `json:"domain"`
+			Route  string `json:"route"`
+			Type   string `json:"type"`
+		} `json:"asn"`
+		Company struct {
+			Name   string `json:"name"`
+			Domain string `json:"domain"`
+			Type   string `json:"type"`
+		} `json:"company"`
+		Privacy struct {
+			Vpn     bool   `json:"vpn"`
+			Proxy   bool   `json:"proxy"`
+			Tor     bool   `json:"tor"`
+			Relay   bool   `json:"relay"`
+			Hosting bool   `json:"hosting"`
+			Service string `json:"service"`
+		} `json:"privacy"`
+		Hostname string `json:"hostname,omitempty"`
+	} `json:"apparentIPInfo"`
+	ApparentCountry string `json:"apparentCountry"`
+	MaxTabs         int    `json:"maxTabs"`
+	CurrentTabs     int    `json:"currentTabs"`
+	BrowserLanguage string `json:"browserLanguage"`
+}
+
+type LiveScannersResponse struct {
+	Scanners []LiveScanner `json:"scanners"`
+}
+
+type persistLiveScanRequest struct {
+	Task PersistLiveScanRequest `json:"task"`
+}
+
+type PersistLiveScanRequest struct {
+	UUID       string `json:"uuid"`
+	Visibility string `json:"visibility"`
 }
 
 type ConsoleLog struct {
