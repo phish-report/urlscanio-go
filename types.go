@@ -244,191 +244,197 @@ type ScanMeta struct {
 	} `json:"processors"`
 }
 
-type RequestResponse struct {
-	Request struct {
-		RequestId   string `json:"requestId"`
-		LoaderId    string `json:"loaderId"`
-		DocumentURL string `json:"documentURL"`
-		Request     struct {
-			Url              string            `json:"url"`
-			Method           string            `json:"method"`
-			Headers          map[string]string `json:"headers"`
-			MixedContentType string            `json:"mixedContentType"`
-			InitialPriority  string            `json:"initialPriority"`
-			ReferrerPolicy   string            `json:"referrerPolicy"`
-			IsSameSite       bool              `json:"isSameSite"`
-			HasPostData      bool              `json:"hasPostData,omitempty"`
-			PostDataEntries  []struct {
-				Bytes string `json:"bytes"`
-			} `json:"postDataEntries,omitempty"`
-			PostData string `json:"postData,omitempty"`
-		} `json:"request"`
-		Timestamp float64 `json:"timestamp"`
-		WallTime  float64 `json:"wallTime"`
-		Initiator struct {
-			Type         string `json:"type"`
-			Url          string `json:"url,omitempty"`
-			LineNumber   int    `json:"lineNumber,omitempty"`
-			ColumnNumber int    `json:"columnNumber,omitempty"`
-			Stack        struct {
-				CallFrames []struct {
-					FunctionName string `json:"functionName"`
-					ScriptId     string `json:"scriptId"`
-					Url          string `json:"url"`
-					LineNumber   int    `json:"lineNumber"`
-					ColumnNumber int    `json:"columnNumber"`
-				} `json:"callFrames"`
-			} `json:"stack,omitempty"`
-		} `json:"initiator"`
-		RedirectHasExtraInfo bool   `json:"redirectHasExtraInfo"`
-		Type                 string `json:"type"`
-		FrameId              string `json:"frameId"`
-		HasUserGesture       bool   `json:"hasUserGesture"`
-		PrimaryRequest       bool   `json:"primaryRequest,omitempty"`
-		RedirectResponse     struct {
-			Url               string            `json:"url"`
-			Status            int               `json:"status"`
-			StatusText        string            `json:"statusText"`
-			Headers           map[string]string `json:"headers"`
-			MimeType          string            `json:"mimeType"`
-			RemoteIPAddress   string            `json:"remoteIPAddress"`
-			RemotePort        int               `json:"remotePort"`
-			EncodedDataLength int               `json:"encodedDataLength"`
-			Timing            struct {
-				RequestTime              float64 `json:"requestTime"`
-				ProxyStart               int     `json:"proxyStart"`
-				ProxyEnd                 int     `json:"proxyEnd"`
-				DnsStart                 float64 `json:"dnsStart"`
-				DnsEnd                   float64 `json:"dnsEnd"`
-				ConnectStart             float64 `json:"connectStart"`
-				ConnectEnd               float64 `json:"connectEnd"`
-				SslStart                 float64 `json:"sslStart"`
-				SslEnd                   float64 `json:"sslEnd"`
-				WorkerStart              int     `json:"workerStart"`
-				WorkerReady              int     `json:"workerReady"`
-				WorkerFetchStart         int     `json:"workerFetchStart"`
-				WorkerRespondWithSettled int     `json:"workerRespondWithSettled"`
-				SendStart                float64 `json:"sendStart"`
-				SendEnd                  float64 `json:"sendEnd"`
-				PushStart                int     `json:"pushStart"`
-				PushEnd                  int     `json:"pushEnd"`
-				ReceiveHeadersEnd        float64 `json:"receiveHeadersEnd"`
-			} `json:"timing"`
-			ResponseTime           float64 `json:"responseTime"`
-			Protocol               string  `json:"protocol"`
-			AlternateProtocolUsage string  `json:"alternateProtocolUsage"`
-			SecurityState          string  `json:"securityState"`
-			SecurityDetails        struct {
-				Protocol                          string        `json:"protocol"`
-				KeyExchange                       string        `json:"keyExchange"`
-				KeyExchangeGroup                  string        `json:"keyExchangeGroup"`
-				Cipher                            string        `json:"cipher"`
-				CertificateId                     int           `json:"certificateId"`
-				SubjectName                       string        `json:"subjectName"`
-				SanList                           []string      `json:"sanList"`
-				Issuer                            string        `json:"issuer"`
-				ValidFrom                         int           `json:"validFrom"`
-				ValidTo                           int           `json:"validTo"`
-				SignedCertificateTimestampList    []interface{} `json:"signedCertificateTimestampList"`
-				CertificateTransparencyCompliance string        `json:"certificateTransparencyCompliance"`
-				ServerSignatureAlgorithm          int           `json:"serverSignatureAlgorithm"`
-				EncryptedClientHello              bool          `json:"encryptedClientHello"`
-			} `json:"securityDetails"`
-		} `json:"redirectResponse,omitempty"`
+type Request struct {
+	RequestId   string `json:"requestId"`
+	LoaderId    string `json:"loaderId"`
+	DocumentURL string `json:"documentURL"`
+	Request     struct {
+		Url              string            `json:"url"`
+		Method           string            `json:"method"`
+		Headers          map[string]string `json:"headers"`
+		MixedContentType string            `json:"mixedContentType"`
+		InitialPriority  string            `json:"initialPriority"`
+		ReferrerPolicy   string            `json:"referrerPolicy"`
+		IsSameSite       bool              `json:"isSameSite"`
+		HasPostData      bool              `json:"hasPostData,omitempty"`
+		PostDataEntries  []struct {
+			Bytes string `json:"bytes"`
+		} `json:"postDataEntries,omitempty"`
+		PostData string `json:"postData,omitempty"`
 	} `json:"request"`
-	Response struct {
-		EncodedDataLength int    `json:"encodedDataLength"`
-		DataLength        int    `json:"dataLength"`
-		RequestId         string `json:"requestId"`
-		Type              string `json:"type"`
-		Response          struct {
-			Url               string            `json:"url"`
-			Status            int               `json:"status"`
-			StatusText        string            `json:"statusText"`
-			Headers           map[string]string `json:"headers"`
-			MimeType          string            `json:"mimeType"`
-			RemoteIPAddress   string            `json:"remoteIPAddress,omitempty"`
-			RemotePort        int               `json:"remotePort,omitempty"`
-			EncodedDataLength int               `json:"encodedDataLength"`
-			Timing            struct {
-				RequestTime              float64 `json:"requestTime"`
-				ProxyStart               int     `json:"proxyStart"`
-				ProxyEnd                 int     `json:"proxyEnd"`
-				DnsStart                 float64 `json:"dnsStart"`
-				DnsEnd                   float64 `json:"dnsEnd"`
-				ConnectStart             float64 `json:"connectStart"`
-				ConnectEnd               float64 `json:"connectEnd"`
-				SslStart                 float64 `json:"sslStart"`
-				SslEnd                   float64 `json:"sslEnd"`
-				WorkerStart              int     `json:"workerStart"`
-				WorkerReady              int     `json:"workerReady"`
-				WorkerFetchStart         int     `json:"workerFetchStart"`
-				WorkerRespondWithSettled int     `json:"workerRespondWithSettled"`
-				SendStart                float64 `json:"sendStart"`
-				SendEnd                  float64 `json:"sendEnd"`
-				PushStart                int     `json:"pushStart"`
-				PushEnd                  int     `json:"pushEnd"`
-				ReceiveHeadersEnd        float64 `json:"receiveHeadersEnd"`
-			} `json:"timing,omitempty"`
-			ResponseTime           float64 `json:"responseTime,omitempty"`
-			Protocol               string  `json:"protocol"`
-			AlternateProtocolUsage string  `json:"alternateProtocolUsage,omitempty"`
-			SecurityState          string  `json:"securityState"`
-			SecurityDetails        struct {
-				Protocol                          string        `json:"protocol"`
-				KeyExchange                       string        `json:"keyExchange"`
-				KeyExchangeGroup                  string        `json:"keyExchangeGroup"`
-				Cipher                            string        `json:"cipher"`
-				CertificateId                     int           `json:"certificateId"`
-				SubjectName                       string        `json:"subjectName"`
-				SanList                           []string      `json:"sanList"`
-				Issuer                            string        `json:"issuer"`
-				ValidFrom                         int           `json:"validFrom"`
-				ValidTo                           int           `json:"validTo"`
-				SignedCertificateTimestampList    []interface{} `json:"signedCertificateTimestampList"`
-				CertificateTransparencyCompliance string        `json:"certificateTransparencyCompliance"`
-				ServerSignatureAlgorithm          int           `json:"serverSignatureAlgorithm"`
-				EncryptedClientHello              bool          `json:"encryptedClientHello"`
-			} `json:"securityDetails,omitempty"`
-			SecurityHeaders []struct {
-				Name  string `json:"name"`
-				Value string `json:"value"`
-			} `json:"securityHeaders,omitempty"`
-		} `json:"response"`
-		Failed struct {
-			RequestId string  `json:"requestId"`
-			Timestamp float64 `json:"timestamp"`
-			Type      string  `json:"type"`
-			ErrorText string  `json:"errorText"`
-			Canceled  bool    `json:"canceled"`
-		} `json:"failed"`
-		HasExtraInfo bool   `json:"hasExtraInfo"`
-		Hash         string `json:"hash"`
-		Size         int    `json:"size"`
-		Asn          struct {
-			Ip          string `json:"ip"`
-			Asn         string `json:"asn"`
-			Country     string `json:"country"`
-			Registrar   string `json:"registrar"`
-			Date        string `json:"date"`
-			Description string `json:"description"`
-			Route       string `json:"route"`
-			Name        string `json:"name"`
-		} `json:"asn,omitempty"`
-		Geoip struct {
-			Country     string    `json:"country"`
-			Region      string    `json:"region"`
-			Timezone    string    `json:"timezone"`
-			City        string    `json:"city"`
-			Ll          []float64 `json:"ll"`
-			CountryName string    `json:"country_name"`
-			Metro       int       `json:"metro"`
-		} `json:"geoip,omitempty"`
-		Rdns struct {
-			Ip  string `json:"ip"`
-			Ptr string `json:"ptr"`
-		} `json:"rdns,omitempty"`
+	Timestamp float64 `json:"timestamp"`
+	WallTime  float64 `json:"wallTime"`
+	Initiator struct {
+		Type         string `json:"type"`
+		Url          string `json:"url,omitempty"`
+		LineNumber   int    `json:"lineNumber,omitempty"`
+		ColumnNumber int    `json:"columnNumber,omitempty"`
+		Stack        struct {
+			CallFrames []struct {
+				FunctionName string `json:"functionName"`
+				ScriptId     string `json:"scriptId"`
+				Url          string `json:"url"`
+				LineNumber   int    `json:"lineNumber"`
+				ColumnNumber int    `json:"columnNumber"`
+			} `json:"callFrames"`
+		} `json:"stack,omitempty"`
+	} `json:"initiator"`
+	RedirectHasExtraInfo bool   `json:"redirectHasExtraInfo"`
+	Type                 string `json:"type"`
+	FrameId              string `json:"frameId"`
+	HasUserGesture       bool   `json:"hasUserGesture"`
+	PrimaryRequest       bool   `json:"primaryRequest,omitempty"`
+	RedirectResponse     struct {
+		Url               string            `json:"url"`
+		Status            int               `json:"status"`
+		StatusText        string            `json:"statusText"`
+		Headers           map[string]string `json:"headers"`
+		MimeType          string            `json:"mimeType"`
+		RemoteIPAddress   string            `json:"remoteIPAddress"`
+		RemotePort        int               `json:"remotePort"`
+		EncodedDataLength int               `json:"encodedDataLength"`
+		Timing            struct {
+			RequestTime              float64 `json:"requestTime"`
+			ProxyStart               int     `json:"proxyStart"`
+			ProxyEnd                 int     `json:"proxyEnd"`
+			DnsStart                 float64 `json:"dnsStart"`
+			DnsEnd                   float64 `json:"dnsEnd"`
+			ConnectStart             float64 `json:"connectStart"`
+			ConnectEnd               float64 `json:"connectEnd"`
+			SslStart                 float64 `json:"sslStart"`
+			SslEnd                   float64 `json:"sslEnd"`
+			WorkerStart              int     `json:"workerStart"`
+			WorkerReady              int     `json:"workerReady"`
+			WorkerFetchStart         int     `json:"workerFetchStart"`
+			WorkerRespondWithSettled int     `json:"workerRespondWithSettled"`
+			SendStart                float64 `json:"sendStart"`
+			SendEnd                  float64 `json:"sendEnd"`
+			PushStart                int     `json:"pushStart"`
+			PushEnd                  int     `json:"pushEnd"`
+			ReceiveHeadersEnd        float64 `json:"receiveHeadersEnd"`
+		} `json:"timing"`
+		ResponseTime           float64 `json:"responseTime"`
+		Protocol               string  `json:"protocol"`
+		AlternateProtocolUsage string  `json:"alternateProtocolUsage"`
+		SecurityState          string  `json:"securityState"`
+		SecurityDetails        struct {
+			Protocol                          string        `json:"protocol"`
+			KeyExchange                       string        `json:"keyExchange"`
+			KeyExchangeGroup                  string        `json:"keyExchangeGroup"`
+			Cipher                            string        `json:"cipher"`
+			CertificateId                     int           `json:"certificateId"`
+			SubjectName                       string        `json:"subjectName"`
+			SanList                           []string      `json:"sanList"`
+			Issuer                            string        `json:"issuer"`
+			ValidFrom                         int           `json:"validFrom"`
+			ValidTo                           int           `json:"validTo"`
+			SignedCertificateTimestampList    []interface{} `json:"signedCertificateTimestampList"`
+			CertificateTransparencyCompliance string        `json:"certificateTransparencyCompliance"`
+			ServerSignatureAlgorithm          int           `json:"serverSignatureAlgorithm"`
+			EncryptedClientHello              bool          `json:"encryptedClientHello"`
+		} `json:"securityDetails"`
+	} `json:"redirectResponse,omitempty"`
+}
+
+type Response struct {
+	EncodedDataLength int    `json:"encodedDataLength"`
+	DataLength        int    `json:"dataLength"`
+	RequestId         string `json:"requestId"`
+	Type              string `json:"type"`
+	Response          struct {
+		Url               string            `json:"url"`
+		Status            int               `json:"status"`
+		StatusText        string            `json:"statusText"`
+		Headers           map[string]string `json:"headers"`
+		MimeType          string            `json:"mimeType"`
+		RemoteIPAddress   string            `json:"remoteIPAddress,omitempty"`
+		RemotePort        int               `json:"remotePort,omitempty"`
+		EncodedDataLength int               `json:"encodedDataLength"`
+		Timing            struct {
+			RequestTime              float64 `json:"requestTime"`
+			ProxyStart               int     `json:"proxyStart"`
+			ProxyEnd                 int     `json:"proxyEnd"`
+			DnsStart                 float64 `json:"dnsStart"`
+			DnsEnd                   float64 `json:"dnsEnd"`
+			ConnectStart             float64 `json:"connectStart"`
+			ConnectEnd               float64 `json:"connectEnd"`
+			SslStart                 float64 `json:"sslStart"`
+			SslEnd                   float64 `json:"sslEnd"`
+			WorkerStart              int     `json:"workerStart"`
+			WorkerReady              int     `json:"workerReady"`
+			WorkerFetchStart         int     `json:"workerFetchStart"`
+			WorkerRespondWithSettled int     `json:"workerRespondWithSettled"`
+			SendStart                float64 `json:"sendStart"`
+			SendEnd                  float64 `json:"sendEnd"`
+			PushStart                int     `json:"pushStart"`
+			PushEnd                  int     `json:"pushEnd"`
+			ReceiveHeadersEnd        float64 `json:"receiveHeadersEnd"`
+		} `json:"timing,omitempty"`
+		ResponseTime           float64 `json:"responseTime,omitempty"`
+		Protocol               string  `json:"protocol"`
+		AlternateProtocolUsage string  `json:"alternateProtocolUsage,omitempty"`
+		SecurityState          string  `json:"securityState"`
+		SecurityDetails        struct {
+			Protocol                          string        `json:"protocol"`
+			KeyExchange                       string        `json:"keyExchange"`
+			KeyExchangeGroup                  string        `json:"keyExchangeGroup"`
+			Cipher                            string        `json:"cipher"`
+			CertificateId                     int           `json:"certificateId"`
+			SubjectName                       string        `json:"subjectName"`
+			SanList                           []string      `json:"sanList"`
+			Issuer                            string        `json:"issuer"`
+			ValidFrom                         int           `json:"validFrom"`
+			ValidTo                           int           `json:"validTo"`
+			SignedCertificateTimestampList    []interface{} `json:"signedCertificateTimestampList"`
+			CertificateTransparencyCompliance string        `json:"certificateTransparencyCompliance"`
+			ServerSignatureAlgorithm          int           `json:"serverSignatureAlgorithm"`
+			EncryptedClientHello              bool          `json:"encryptedClientHello"`
+		} `json:"securityDetails,omitempty"`
+		SecurityHeaders []struct {
+			Name  string `json:"name"`
+			Value string `json:"value"`
+		} `json:"securityHeaders,omitempty"`
 	} `json:"response"`
+	Failed struct {
+		RequestId string  `json:"requestId"`
+		Timestamp float64 `json:"timestamp"`
+		Type      string  `json:"type"`
+		ErrorText string  `json:"errorText"`
+		Canceled  bool    `json:"canceled"`
+	} `json:"failed"`
+	HasExtraInfo bool   `json:"hasExtraInfo"`
+	Hash         string `json:"hash"`
+	Size         int    `json:"size"`
+	Asn          struct {
+		Ip          string `json:"ip"`
+		Asn         string `json:"asn"`
+		Country     string `json:"country"`
+		Registrar   string `json:"registrar"`
+		Date        string `json:"date"`
+		Description string `json:"description"`
+		Route       string `json:"route"`
+		Name        string `json:"name"`
+	} `json:"asn,omitempty"`
+	Geoip struct {
+		Country     string    `json:"country"`
+		Region      string    `json:"region"`
+		Timezone    string    `json:"timezone"`
+		City        string    `json:"city"`
+		Ll          []float64 `json:"ll"`
+		CountryName string    `json:"country_name"`
+		Metro       int       `json:"metro"`
+	} `json:"geoip,omitempty"`
+	Rdns struct {
+		Ip  string `json:"ip"`
+		Ptr string `json:"ptr"`
+	} `json:"rdns,omitempty"`
+}
+
+type RequestResponse struct {
+	Request Request `json:"request"`
+	// If the request was redirected, Requests holds each individual request
+	Requests      []Request `json:"requests"`
+	Response      Response  `json:"response"`
 	InitiatorInfo struct {
 		Url  string `json:"url"`
 		Host string `json:"host"`
