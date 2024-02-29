@@ -153,7 +153,6 @@ func (c *Client) do(ctx context.Context, method, url string, request, response a
 		if err != nil {
 			return nil, err
 		}
-		fmt.Println(url, "sending payload", string(requestBody))
 		req.Body = io.NopCloser(bytes.NewReader(requestBody))
 		req.Header.Set("Content-Type", "application/json")
 	}
