@@ -263,6 +263,28 @@ type ScanMeta struct {
 	} `json:"processors"`
 }
 
+type Timing struct {
+	RequestTime              float64 `json:"requestTime"`
+	ProxyStart               float64 `json:"proxyStart"`
+	ProxyEnd                 float64 `json:"proxyEnd"`
+	DnsStart                 float64 `json:"dnsStart"`
+	DnsEnd                   float64 `json:"dnsEnd"`
+	ConnectStart             float64 `json:"connectStart"`
+	ConnectEnd               float64 `json:"connectEnd"`
+	SslStart                 float64 `json:"sslStart"`
+	SslEnd                   float64 `json:"sslEnd"`
+	WorkerStart              float64 `json:"workerStart"`
+	WorkerReady              float64 `json:"workerReady"`
+	WorkerFetchStart         float64 `json:"workerFetchStart"`
+	WorkerRespondWithSettled float64 `json:"workerRespondWithSettled"`
+	SendStart                float64 `json:"sendStart"`
+	SendEnd                  float64 `json:"sendEnd"`
+	PushStart                float64 `json:"pushStart"`
+	PushEnd                  float64 `json:"pushEnd"`
+	ReceiveHeadersStart      float64 `json:"receiveHeadersStart"`
+	ReceiveHeadersEnd        float64 `json:"receiveHeadersEnd"`
+}
+
 type RequestResponse struct {
 	Request struct {
 		RequestId   string `json:"requestId"`
@@ -305,38 +327,19 @@ type RequestResponse struct {
 		HasUserGesture       bool   `json:"hasUserGesture"`
 		PrimaryRequest       bool   `json:"primaryRequest,omitempty"`
 		RedirectResponse     struct {
-			Url               string            `json:"url"`
-			Status            int               `json:"status"`
-			StatusText        string            `json:"statusText"`
-			Headers           map[string]string `json:"headers"`
-			MimeType          string            `json:"mimeType"`
-			RemoteIPAddress   string            `json:"remoteIPAddress"`
-			RemotePort        int               `json:"remotePort"`
-			EncodedDataLength int               `json:"encodedDataLength"`
-			Timing            struct {
-				RequestTime              float64 `json:"requestTime"`
-				ProxyStart               int     `json:"proxyStart"`
-				ProxyEnd                 int     `json:"proxyEnd"`
-				DnsStart                 float64 `json:"dnsStart"`
-				DnsEnd                   float64 `json:"dnsEnd"`
-				ConnectStart             float64 `json:"connectStart"`
-				ConnectEnd               float64 `json:"connectEnd"`
-				SslStart                 float64 `json:"sslStart"`
-				SslEnd                   float64 `json:"sslEnd"`
-				WorkerStart              int     `json:"workerStart"`
-				WorkerReady              int     `json:"workerReady"`
-				WorkerFetchStart         int     `json:"workerFetchStart"`
-				WorkerRespondWithSettled int     `json:"workerRespondWithSettled"`
-				SendStart                float64 `json:"sendStart"`
-				SendEnd                  float64 `json:"sendEnd"`
-				PushStart                int     `json:"pushStart"`
-				PushEnd                  int     `json:"pushEnd"`
-				ReceiveHeadersEnd        float64 `json:"receiveHeadersEnd"`
-			} `json:"timing"`
-			ResponseTime           float64 `json:"responseTime"`
-			Protocol               string  `json:"protocol"`
-			AlternateProtocolUsage string  `json:"alternateProtocolUsage"`
-			SecurityState          string  `json:"securityState"`
+			Url                    string            `json:"url"`
+			Status                 int               `json:"status"`
+			StatusText             string            `json:"statusText"`
+			Headers                map[string]string `json:"headers"`
+			MimeType               string            `json:"mimeType"`
+			RemoteIPAddress        string            `json:"remoteIPAddress"`
+			RemotePort             int               `json:"remotePort"`
+			EncodedDataLength      int               `json:"encodedDataLength"`
+			Timing                 Timing            `json:"timing"`
+			ResponseTime           float64           `json:"responseTime"`
+			Protocol               string            `json:"protocol"`
+			AlternateProtocolUsage string            `json:"alternateProtocolUsage"`
+			SecurityState          string            `json:"securityState"`
 			SecurityDetails        struct {
 				Protocol                          string        `json:"protocol"`
 				KeyExchange                       string        `json:"keyExchange"`
