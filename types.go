@@ -364,38 +364,19 @@ type RequestResponse struct {
 		RequestId         string `json:"requestId"`
 		Type              string `json:"type"`
 		Response          struct {
-			Url               string            `json:"url"`
-			Status            int               `json:"status"`
-			StatusText        string            `json:"statusText"`
-			Headers           map[string]string `json:"headers"`
-			MimeType          string            `json:"mimeType"`
-			RemoteIPAddress   string            `json:"remoteIPAddress,omitempty"`
-			RemotePort        int               `json:"remotePort,omitempty"`
-			EncodedDataLength int               `json:"encodedDataLength"`
-			Timing            struct {
-				RequestTime              float64 `json:"requestTime"`
-				ProxyStart               int     `json:"proxyStart"`
-				ProxyEnd                 int     `json:"proxyEnd"`
-				DnsStart                 float64 `json:"dnsStart"`
-				DnsEnd                   float64 `json:"dnsEnd"`
-				ConnectStart             float64 `json:"connectStart"`
-				ConnectEnd               float64 `json:"connectEnd"`
-				SslStart                 float64 `json:"sslStart"`
-				SslEnd                   float64 `json:"sslEnd"`
-				WorkerStart              int     `json:"workerStart"`
-				WorkerReady              int     `json:"workerReady"`
-				WorkerFetchStart         int     `json:"workerFetchStart"`
-				WorkerRespondWithSettled int     `json:"workerRespondWithSettled"`
-				SendStart                float64 `json:"sendStart"`
-				SendEnd                  float64 `json:"sendEnd"`
-				PushStart                int     `json:"pushStart"`
-				PushEnd                  int     `json:"pushEnd"`
-				ReceiveHeadersEnd        float64 `json:"receiveHeadersEnd"`
-			} `json:"timing,omitempty"`
-			ResponseTime           float64 `json:"responseTime,omitempty"`
-			Protocol               string  `json:"protocol"`
-			AlternateProtocolUsage string  `json:"alternateProtocolUsage,omitempty"`
-			SecurityState          string  `json:"securityState"`
+			Url                    string            `json:"url"`
+			Status                 int               `json:"status"`
+			StatusText             string            `json:"statusText"`
+			Headers                map[string]string `json:"headers"`
+			MimeType               string            `json:"mimeType"`
+			RemoteIPAddress        string            `json:"remoteIPAddress,omitempty"`
+			RemotePort             int               `json:"remotePort,omitempty"`
+			EncodedDataLength      int               `json:"encodedDataLength"`
+			Timing                 Timing            `json:"timing,omitempty"`
+			ResponseTime           float64           `json:"responseTime,omitempty"`
+			Protocol               string            `json:"protocol"`
+			AlternateProtocolUsage string            `json:"alternateProtocolUsage,omitempty"`
+			SecurityState          string            `json:"securityState"`
 			SecurityDetails        struct {
 				Protocol                          string        `json:"protocol"`
 				KeyExchange                       string        `json:"keyExchange"`
