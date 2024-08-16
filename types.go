@@ -20,6 +20,7 @@ type SearchRequest struct {
 	Query       string
 	Size        int
 	SearchAfter string
+	Collapse    string
 }
 
 type SearchResponse struct {

@@ -59,6 +59,9 @@ func (c *Client) Search(ctx context.Context, request SearchRequest) (SearchRespo
 	if request.SearchAfter != "" {
 		params.Set("search_after", request.SearchAfter)
 	}
+	if request.Collapse != "" {
+		params.Set("collapse", request.Collapse)
+	}
 
 	var resp SearchResponse
 	_, err := c.do(ctx, http.MethodGet, apiBase+"/search?"+params.Encode(), nil, &resp)
