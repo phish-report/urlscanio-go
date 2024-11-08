@@ -576,26 +576,36 @@ type ScanResult struct {
 	} `json:"stats"`
 	Meta ScanMeta `json:"meta"`
 	Task struct {
-		Uuid          string        `json:"uuid"`
-		Time          time.Time     `json:"time"`
-		Url           string        `json:"url"`
-		Visibility    string        `json:"visibility"`
-		Method        string        `json:"method"`
-		Source        string        `json:"source"`
-		Tags          []interface{} `json:"tags"`
-		ReportURL     string        `json:"reportURL"`
-		ScreenshotURL string        `json:"screenshotURL"`
-		DomURL        string        `json:"domURL"`
+		Uuid          string    `json:"uuid"`
+		Time          time.Time `json:"time"`
+		Url           string    `json:"url"`
+		Visibility    string    `json:"visibility"`
+		Method        string    `json:"method"`
+		Source        string    `json:"source"`
+		Tags          []string  `json:"tags"`
+		ReportURL     string    `json:"reportURL"`
+		ScreenshotURL string    `json:"screenshotURL"`
+		DomURL        string    `json:"domURL"`
 	} `json:"task"`
 	Page struct {
-		Url     string `json:"url"`
-		Domain  string `json:"domain"`
-		Country string `json:"country"`
-		City    string `json:"city"`
-		Server  string `json:"server"`
-		Ip      string `json:"ip"`
-		Asn     string `json:"asn"`
-		Asnname string `json:"asnname"`
+		Asn          string    `json:"asn"`
+		Asnname      string    `json:"asnname"`
+		City         string    `json:"city"`
+		Country      string    `json:"country"`
+		Domain       string    `json:"domain"`
+		Ip           string    `json:"ip"`
+		Ptr          string    `json:"ptr"`
+		Url          string    `json:"url"`
+		Redirected   string    `json:"redirected"`
+		MimeType     string    `json:"mimeType"`
+		Title        string    `json:"title"`
+		TlsValidDays int       `json:"tlsValidDays"`
+		TlsAgeDays   int       `json:"tlsAgeDays"`
+		TlsValidFrom time.Time `json:"tlsValidFrom"`
+		UmbrellaRank int       `json:"umbrellaRank"`
+		ApexDomain   string    `json:"apexDomain"`
+		TlsIssuer    string    `json:"tlsIssuer"`
+		Status       string    `json:"status"`
 	} `json:"page"`
 	Lists struct {
 		Ips          []string `json:"ips"`

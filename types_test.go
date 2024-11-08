@@ -1,7 +1,9 @@
 package urlscanio
 
 import (
+	"context"
 	"encoding/json"
+	"github.com/bradleyjkemp/cupaloy/v2"
 	"testing"
 )
 
@@ -30,6 +32,23 @@ func TestNullable_UnmarshalJSON(t *testing.T) {
 					t.Errorf("mismatch in index %d: wanted %s, got %s", i, n[i], tt.want[i])
 				}
 			}
+		})
+	}
+}
+
+func TestSnapshot(t *testing.T) {
+	tc := []string{
+		"663bc207-f1fd-4f41-b413-3cc99f1e31b8",
+	}
+
+	for _, uuid := range tc {
+		t.Run(uuid, func(t *testing.T) {
+			r, err := NewClient().RetrieveResult(context.Background(), uuid)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			cupaloy.SnapshotT(t, r)
 		})
 	}
 }
