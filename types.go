@@ -463,7 +463,7 @@ type ScanResult struct {
 		} `json:"globals"`
 	} `json:"data"`
 	Stats struct {
-		ResourceStats []struct {
+		ResourceStats NullableSlice[struct {
 			Count       int      `json:"count"`
 			Size        int      `json:"size"`
 			EncodedSize int      `json:"encodedSize"`
@@ -473,8 +473,8 @@ type ScanResult struct {
 			Type        string   `json:"type"`
 			Compression string   `json:"compression"`
 			Percentage  int      `json:"percentage"`
-		} `json:"resourceStats"`
-		ProtocolStats []struct {
+		}] `json:"resourceStats"`
+		ProtocolStats NullableSlice[struct {
 			Count         int      `json:"count"`
 			Size          int      `json:"size"`
 			EncodedSize   int      `json:"encodedSize"`
@@ -483,8 +483,8 @@ type ScanResult struct {
 			SecurityState struct {
 			} `json:"securityState"`
 			Protocol string `json:"protocol"`
-		} `json:"protocolStats"`
-		TlsStats []struct {
+		}] `json:"protocolStats"`
+		TlsStats NullableSlice[struct {
 			Count       int      `json:"count"`
 			Size        int      `json:"size"`
 			EncodedSize int      `json:"encodedSize"`
@@ -495,16 +495,16 @@ type ScanResult struct {
 				QUICAES128GCM  int `json:"QUIC /  / AES_128_GCM"`
 			} `json:"protocols"`
 			SecurityState string `json:"securityState"`
-		} `json:"tlsStats"`
-		ServerStats []struct {
+		}] `json:"tlsStats"`
+		ServerStats NullableSlice[struct {
 			Count       int      `json:"count"`
 			Size        int      `json:"size"`
 			EncodedSize int      `json:"encodedSize"`
 			Ips         []string `json:"ips"`
 			Countries   []string `json:"countries"`
 			Server      string   `json:"server"`
-		} `json:"serverStats"`
-		DomainStats []struct {
+		}] `json:"serverStats"`
+		DomainStats NullableSlice[struct {
 			Count       int      `json:"count"`
 			Ips         []string `json:"ips"`
 			Domain      string   `json:"domain"`
@@ -514,8 +514,8 @@ type ScanResult struct {
 			Index       int      `json:"index"`
 			Initiators  []string `json:"initiators"`
 			Redirects   int      `json:"redirects"`
-		} `json:"domainStats"`
-		RegDomainStats []struct {
+		}] `json:"domainStats"`
+		RegDomainStats NullableSlice[struct {
 			Count       int           `json:"count"`
 			Ips         []string      `json:"ips"`
 			RegDomain   string        `json:"regDomain"`
@@ -528,7 +528,7 @@ type ScanResult struct {
 				Country string `json:"country"`
 			} `json:"subDomains"`
 			Redirects int `json:"redirects"`
-		} `json:"regDomainStats"`
+		}] `json:"regDomainStats"`
 		SecureRequests   int `json:"secureRequests"`
 		SecurePercentage int `json:"securePercentage"`
 		IPv6Percentage   int `json:"IPv6Percentage"`
@@ -536,7 +536,7 @@ type ScanResult struct {
 		TotalLinks       int `json:"totalLinks"`
 		Malicious        int `json:"malicious"`
 		AdBlocked        int `json:"adBlocked"`
-		IpStats          []struct {
+		IpStats          NullableSlice[struct {
 			Requests int      `json:"requests"`
 			Domains  []string `json:"domains"`
 			Ip       string   `json:"ip"`
@@ -572,7 +572,7 @@ type ScanResult struct {
 				Ip  string `json:"ip"`
 				Ptr string `json:"ptr"`
 			} `json:"rdns,omitempty"`
-		} `json:"ipStats"`
+		}] `json:"ipStats"`
 	} `json:"stats"`
 	Meta ScanMeta `json:"meta"`
 	Task struct {
