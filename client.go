@@ -113,13 +113,13 @@ func (c Client) PersistLiveScan(ctx context.Context, liveScanner string, scanReq
 }
 
 func (c *Client) PollResult(ctx context.Context, uuid string) (ScanResult, error) {
-	// Poll every two seconds for up to a minute
-	t := time.NewTicker(2 * time.Second)
-	defer t.Stop()
+	// Poll for up to a minute
 	ctx, cancel := context.WithTimeout(ctx, time.Minute)
 	defer cancel()
 
+	delay := 2 * time.Second
 	var lastErr error
+
 	for {
 		result, err := c.RetrieveResult(ctx, uuid)
 		if err == nil {
@@ -130,10 +130,10 @@ func (c *Client) PollResult(ctx context.Context, uuid string) (ScanResult, error
 		}
 
 		select {
+		case <-time.After(delay):
+			delay = max(delay*2, 20*time.Second)
 		case <-ctx.Done():
 			return ScanResult{}, errors.Join(lastErr, ctx.Err())
-		case <-t.C:
-			continue
 		}
 	}
 }
